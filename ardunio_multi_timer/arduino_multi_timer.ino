@@ -5,8 +5,8 @@ MAX_T is the time in milliseconds it will wait when the ADC reads 1023
 MIN_T is the time in milliseconds it will wait when the ADC read 0
 START_PIN_TYPE sets the mode of the start timer pin, should be either INPUT or INPUT_PULLUP
 OUTPUT ACTIVE sets the signal type when the timer is complete, should be either HIGH or LOW
-SIGNAL_TIME sets the time for which the output is active in milliseconds
 
+signal_time sets the time for which the output is active in milliseconds
 startPins is the array of pins which will be used for starting each timer
 potPins is the array of pins which will be used for the variable timer input, these must be analogue
 outputPins is the array of pins which will be written for the output
@@ -18,11 +18,11 @@ outputPins is the array of pins which will be written for the output
 
 #define START_PIN_TYPE INPUT_PULLUP
 #define OUTPUT_ACTIVE HIGH
-#define SIGNAL_TIME 200
 
 unsigned char startPins[NUM_PINS] = {2};
 unsigned char potPins[NUM_PINS] = {A0};
 unsigned char outputPins[NUM_PINS] = {6};
+unsigned long long signal_time[NUM_PINS] = {200};
 
 /*********************************************
 	   DON'T EDIT THIS ANYTHING BELOW
@@ -69,7 +69,7 @@ void loop() {
 			unsigned short potInput = analogRead(potPins[i]);
 			tEnd[i] = tNow + map(potInput, 0, 1023, MIN_T, MAX_T);
 		}
-		else if(tEnd[i] != 0 && tNow > tEnd[i] + SIGNAL_TIME)
+		else if(tEnd[i] != 0 && tNow > tEnd[i] + signal_time[i])
 		{
 			digitalWrite(outputPins[i], OUTPUT_DEFAULT);
 			tEnd[i] = 0;
