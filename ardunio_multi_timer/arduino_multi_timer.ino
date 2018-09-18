@@ -40,7 +40,7 @@ void loop() {
 	for(unsigned char i = 0; i < NUM_PINS; i++)
 	{
 		unsigned long long tNow = millis();
-		if(tEnd[i] == 0 && startPins[i] == TIMER_START)
+		if(tEnd[i] == 0 && digitalRead(startPins[i]) == TIMER_START)
 		{
 			unsigned short potInput = analogRead(potPins[i]);
 			tEnd[i] = tNow + map(potInput, 0, 1023, MIN_T, MAX_T);
